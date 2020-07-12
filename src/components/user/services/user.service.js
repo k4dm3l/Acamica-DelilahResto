@@ -11,8 +11,8 @@ const getUserByUserName = (username) => {
         where: {
             username: username
         }
-    })
-}
+    });
+};
 
 const createNewUser = (user) => {
     return userModel.create(user);
