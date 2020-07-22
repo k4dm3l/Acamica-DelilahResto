@@ -3,6 +3,15 @@
 const productService = require('../services/product.service');
 const boom = require('@hapi/boom');
 
+
+const searchProduct = async (req, res) => {
+    const {id} = req.params;
+    const searchProductId = await productService.getProductByProductId(id);
+    if(!searchProductId) throw boom.notFound(`Product ${id} not found`);
+
+    res.status(201).json({message: 'Success', data: searchProductId});    
+};
+
 const getProducts = async (req, res) => {
     const products = await productService.getAllProducts();
 
@@ -15,7 +24,7 @@ const createProduct = async (req, res) => {
     if (res.locals.rol !== 'ADMIN') throw boom.unauthorized('You are not allowed to perform this action');
     const createdProduct = await productService.createNewProduct(product);
 
-    if(!createProduct) throw boom.badImplementation('Error crating a new product. Contact support');
+    if(!createdProduct) throw boom.badImplementation('Error creating a new product. Contact support');
 
     res.status(200).json({message: 'Success', data: createdProduct});
 };
@@ -31,14 +40,6 @@ const updateProduct = async (req, res) => {
     if(!updatedProduct.length) throw boom.badImplementation('Error trying to update this product');
     res.status(201).json({message: 'Success', data: product});
 };
-
-const searchProduct = async (req, res) => {
-    const {id} = req.params;
-    const searchProductId = await productService.getProductByProductId(id);
-    if(!searchProductId) throw boom.notFound(`Product ${id} not found`);
-
-    res.status(201).json({message: 'Success', data: searchProductId});    
-}
 
 const deleteProduct = async (req, res) => {
     const {id} = req.params;

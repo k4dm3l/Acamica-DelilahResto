@@ -15,7 +15,7 @@ const isLoggin = (req, res, next) => {
         res.locals = decoded;
         next();
     } catch (error) {
-        next(error);
+        next(boom.unauthorized(error.message));
     }
 };
 

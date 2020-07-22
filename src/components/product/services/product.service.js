@@ -1,7 +1,6 @@
 'use strict';
 
 const productModel = require('../models/product.model');
-const ProductModel = require('../models/product.model');
 
 const getAllProducts = () => {
     return productModel.findAll();
@@ -28,7 +27,7 @@ const createNewProduct = (product) => {
 };
 
 const deleteProduct = (id) => {
-    return ProductModel.destroy({
+    return productModel.destroy({
         where: {
             id:id
         }

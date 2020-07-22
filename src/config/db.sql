@@ -30,8 +30,8 @@ create table orders (
  address varchar(450) not null,
  total decimal(9,2) not null,
  userid bigint unsigned,
- createat timestamp default now(),
- updateat timestamp,
+ createdat timestamp default now(),
+ updatedat timestamp,
  foreign key (userid) references users (id)
 );
 
@@ -39,8 +39,8 @@ create table orders_products(
 id serial primary key,
 productid bigint unsigned,
 orderid bigint unsigned,
-createat timestamp default now(),
-updateat timestamp,
+createdat timestamp default now(),
+updatedat timestamp,
 foreign key (productid) references products (id),
 foreign key (orderid) references orders (id)
 );
