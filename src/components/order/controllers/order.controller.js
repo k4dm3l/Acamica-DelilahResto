@@ -125,8 +125,51 @@ const createOrder = async (req, res) => {
     res.status(200).json({message: 'Success', data: createdOrder});
 };
 
+const updateStatusOrder = async (req, res) => {
+    const {id, status} = req.query;
+
+    if(res.locals.rol !== 'ADMIN') throw boom.unauthorized('You are not allowed to perform this action');
+
+    const searchedOrder = await orderService.getOrderById(id, '');
+
+    if(!searchedOrder.length) throw boom.notFound(`The order with id: ${id} does not exist`);
+
+    const response = {
+        id: id,
+        status: searchedOrder[0][0].status,
+        payment: searchedOrder[0][0].payment,
+        address: searchedOrder[0][0].address,
+        fullname: searchedOrder[0][0].fullname,
+        username: searchedOrder[0][0].username,
+        email: searchedOrder[0][0].email,
+        phone: searchedOrder[0][0].phone,
+        products: [],
+        totalprice: 0
+    };
+    
+    searchedOrder[0].forEach(product => {
+        response.products.push({
+            price: Number(product.price),
+            description: product.description
+        });
+        response.totalprice += Number(product.price);
+    });
+
+    if(response.status === status) throw boom.badRequest(`Order ${id} already has status ${status}`);
+
+    const [result, metadata] = await orderService.updateStatusOrder(id, status);
+
+    if(result.affectedRows <= 0) throw boom.badImplementation(`Error trying to update order id ${id} with status ${status}`);
+    
+    res.status(201).json({message: 'Success', data: {
+        id: id,
+        status: status
+    }});
+};
+
 module.exports = {
     searchOrder,
     createOrder,
-    searchOrders
+    searchOrders,
+    updateStatusOrder
 }

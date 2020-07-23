@@ -14,4 +14,9 @@ const updateOrderSchema = joi.object().keys({
     id: joi.string().regex(/^[0-9]*$/).required()
 });
 
-module.exports = { newOrderSchema, updateOrderSchema };
+const updateStatusOrderSchema = joi.object().keys({
+    id: joi.string().regex(/^[0-9]*$/).required(),
+    status: joi.string().uppercase().trim().valid('NUEVO', 'CONFIRMADO', 'PREPARANDO', 'CANCELADO', 'ENVIANDO', 'ENTREGADO').required()
+});
+
+module.exports = { newOrderSchema, updateOrderSchema, updateStatusOrderSchema };
