@@ -27,6 +27,10 @@ const OrderModel = sequelizeInstance.define('orders', {
     total: {
         allowNull: false,
         type: Sequelize.DECIMAL(9,2)
+    },
+    userid: {
+        allowNull: false,
+        type: Sequelize.BIGINT
     }
 }, {
     sequelizeInstance,
