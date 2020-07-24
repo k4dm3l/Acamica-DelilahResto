@@ -167,9 +167,27 @@ const updateStatusOrder = async (req, res) => {
     }});
 };
 
+const deleteOrderById = async (req, res) => {
+    const {id} = req.params;
+    
+    if(res.locals.rol !== 'ADMIN') throw boom.unauthorized('You are not allowed to perform this action');
+
+    const searchedOrder = await orderService.getOrderById(id, '');
+    if(!searchedOrder[0].length) throw boom.notFound(`Order ${id} not found`);
+
+    const orderedProducts = await orderService.deleteOrderProducts(id);
+    if(!orderedProducts) throw boom.badImplementation('No products associated to this order');
+
+    const deletedOrder = await orderService.deleteOrder(id);
+    if(!deletedOrder) throw boom.badImplementation(`Delete process fail with order ${id}`);
+
+    res.status(200).json({message: 'Success', data: `Order ${id} was succesfully deleted`});
+};
+
 module.exports = {
     searchOrder,
     createOrder,
     searchOrders,
-    updateStatusOrder
+    updateStatusOrder,
+    deleteOrderById
 }

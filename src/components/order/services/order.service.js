@@ -3,7 +3,6 @@
 const orderModel = require('../models/order.model');
 const orderProductModel = require('../models/orderProduct.model');
 const { sequelizeInstance } = require('../../../config/database');
-const sequelize = require('sequelize');
 
 const getOrderById = (id, search) => {
     const query = `SELECT 
@@ -55,9 +54,21 @@ const updateStatusOrder = (id, status) => {
     return sequelizeInstance.query(query);
 };
 
+const deleteOrderProducts = (orderid) => {
+    return orderProductModel.destroy({
+        where: {
+            orderid:orderid
+        }
+    });
+};
+
 const deleteOrder = (id) => {
-    
-}
+    return orderModel.destroy({
+        where: {
+            id:id
+        }
+    });
+};
 
 module.exports = {
     getOrderById,
@@ -65,5 +76,6 @@ module.exports = {
     createOrderProduct,
     getOrders,
     updateStatusOrder,
-    deleteOrder
+    deleteOrder,
+    deleteOrderProducts
 }
