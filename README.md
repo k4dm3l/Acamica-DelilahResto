@@ -25,7 +25,7 @@ With this API you can manage everything about a restaurant, from creating users,
 
 This README.md will guide you on how to install and use this API with simple steps.
 
-NOTE: You can find the specification of the **OpenAPI** in [Open API Docs](https://app.swaggerhub.com/apis/maurolonmartin/DelilahAcamica/1.0.0).
+NOTE: You can find the specification of the **OpenAPI** in swagger aplication [Open API Docs](https://app.swaggerhub.com/apis/maurolonmartin/DelilahAcamica/1.0.0).
 
 ## Installation and initialization
 
